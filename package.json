@@ -1,0 +1,24 @@
+{
+  "name": "goit-node-js",
+  "version": "1.0.0",
+  "description": "goit-node-js",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "get-all": "node src/scripts/contacts/getAllContacts",
+    "generate": "node src/scripts/contacts/generateContacts.js",
+    "add-one": "node src/scripts/contacts/addOneContact.js",
+    "count": "node src/scripts/contacts/countContacts.js",
+    "remove-last": "node src/scripts/contacts/removeLastContact.js",
+    "remove-all": "node src/scripts/contacts/removeAllContacts.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "@faker-js/faker": "^9.6.0",
+    "eslint": "^9.2.0",
+    "globals": "^15.1.0"
+  }
+}
