@@ -34,6 +34,13 @@ export const startServer = ()=> {
         const {id} = req.params;
 
         const data = await getContactsById(id);
+
+        if(!data) {
+            return res.status(404).json({
+                status: 404,
+                message: `Contact with id=${id} not found`
+            });
+        }
         res.json({
             status: 200,
             message: `Successfully found contact with id=${id}`,
