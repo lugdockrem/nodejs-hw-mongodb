@@ -2,7 +2,7 @@ import express from  "express";
 import cors from "cors"; 
 import pino from "pino-http";
 
-import Contactcollection from "./db/models/Contact.js";
+import { getContacts, getContactsById} from "./services/contacts.js";
 
 import { getEnvVar } from "./utils/getEnvVar.js";
 
@@ -18,14 +18,27 @@ export const startServer = ()=> {
     // }));
 
     app.get("/api/contacts", async (req, res)=> {
-        const data = await Contactcollection.find();
+        const data = await getContacts();
 
-        res.json(data);
+        // res.json(data);
         
-        // res.json({
-        //     status: 200,
-        //     message: "Successfully find contacts"
-        // });
+        res.json({
+            status: 200,
+            message: "Successfully find contacts",
+            data,
+        });
+    });
+
+    app.get("/api/contacts/:id", async(req, res)=> {
+        // console.log(req.params);
+        const {id} = req.params;
+
+        const data = await getContactsById(id);
+        res.json({
+            status: 200,
+            message: `Successfully found contact with id=${id}`,
+            data,
+        });
     });
 
     app.use((req, res)=> {
