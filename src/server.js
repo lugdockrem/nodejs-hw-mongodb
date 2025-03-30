@@ -17,7 +17,7 @@ export const startServer = ()=> {
     //     }
     // }));
 
-    app.get("/api/contacts", async (req, res)=> {
+    app.get("/contacts", async (req, res)=> {
         const data = await getContacts();
 
         // res.json(data);
@@ -29,7 +29,7 @@ export const startServer = ()=> {
         });
     });
 
-    app.get("/api/contacts/:id", async(req, res)=> {
+    app.get("/contacts/:id", async(req, res)=> {
         // console.log(req.params);
         const {id} = req.params;
 
