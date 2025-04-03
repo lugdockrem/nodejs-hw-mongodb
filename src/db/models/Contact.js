@@ -23,9 +23,13 @@ const ContactSchema = new Schema({
         enum: ["work", "home", "personal"],
         default: "home",
         required: true,
-    }
-   
-});
+    },
+},   
+{
+    timestamps: true,
+    versionKey: false,
+  },
+);
 
 const Contactcollection = model("contact", ContactSchema);
 
