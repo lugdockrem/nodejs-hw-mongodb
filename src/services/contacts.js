@@ -1,4 +1,3 @@
-// import { raw } from 'express';
 import ContactCollection from '../db/models/Contact.js';
 
 export const getContacts = () => ContactCollection.find();
@@ -20,5 +19,7 @@ export const updateContact = async (_id, payload, options = {}) => {
   return {
     data: rawResult.value,
     isNew: Boolean(rawResult.lastErrorObject.upserted)
+  };
 };
-};
+
+export const deleteContactById = _id => ContactCollection.findOneAndDelete({_id});
