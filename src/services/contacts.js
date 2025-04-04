@@ -1,6 +1,24 @@
-import Contactcollection from "../db/models/Contact.js";
+// import { raw } from 'express';
+import ContactCollection from '../db/models/Contact.js';
 
-export const getContacts = ()=> Contactcollection.find();
+export const getContacts = () => ContactCollection.find();
 
-export const getContactsById = id => Contactcollection.findOne({_id: id});
+export const getContactsById = (id) => ContactCollection.findOne({ _id: id });
 
+export const addContact = (payload) => ContactCollection.create(payload);
+
+export const updateContact = async (_id, payload, options = {}) => {
+    const {upsert = false} = options;
+  const rawResult = await ContactCollection.findOneAndUpdate({ _id }, payload, {
+    new: true,
+    upsert,
+    includeResultMetadata: true,
+  });
+
+  if(!rawResult || !rawResult.value) return null;
+
+  return {
+    data: rawResult.value,
+    isNew: Boolean(rawResult.lastErrorObject.upserted)
+};
+};
