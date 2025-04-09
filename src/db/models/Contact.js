@@ -2,7 +2,9 @@ import {Schema, model} from "mongoose";
 
 import { typeList } from "../../constants/contacts.js";
 
-const ContactSchema = new Schema({
+import { handlSaveError, setUpdateSettings } from "./hooks.js";
+
+const contactSchema = new Schema({
     name: {
         type: String,
         required: [true, "Прізвище обов'язкове!"],
@@ -26,13 +28,14 @@ const ContactSchema = new Schema({
         default: typeList[0],
         required: true,
     },
-},   
-{
-    timestamps: true,
-    versionKey: false,
-  },
-);
+}, {versionKey: false, timestamps: true,});
 
-const ContactCollection = model("contact", ContactSchema);
+contactSchema.post("save", handlSaveError);
+
+contactSchema.pre("findOneAndUpdate", setUpdateSettings);
+
+contactSchema.post("findOneAndUpdate", handlSaveError);
+
+const ContactCollection = model("contact", contactSchema);
 
 export default ContactCollection;
