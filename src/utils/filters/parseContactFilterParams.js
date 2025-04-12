@@ -9,10 +9,8 @@ const parseNumber = value => {
     return parseNumber;
 };
 
-export const parseContactFilterParams = (minBirthYear, maxBirthYear, contactType, isFavourite)=> {
-    const parsedMinBirthYear = parseNumber(minBirthYear);
-    const parsedMaxBirthYear = parseNumber(maxBirthYear);
-
+export const parseContactFilterParams = (contactType, isFavourite)=> {
+    
     const parsedcontactType = typeList.includes(contactType) ? contactType : undefined;
     const parsedIsFavourite = 
     isFavourite === "true" ? true :
@@ -20,8 +18,6 @@ export const parseContactFilterParams = (minBirthYear, maxBirthYear, contactType
     undefined;
 
     return {
-        minBirthYear: parsedMinBirthYear,
-        maxBirthYear: parsedMaxBirthYear,
         contactType: parsedcontactType,
         isFavourite: parsedIsFavourite
     };

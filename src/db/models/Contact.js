@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { typeList, minBirthYear } from '../../constants/contacts.js';
+import { typeList } from '../../constants/contacts.js';
 
 import { handlSaveError, setUpdateSettings } from './hooks.js';
 
@@ -29,12 +29,7 @@ const contactSchema = new Schema(
       default: typeList[0],
       required: true,
     },
-    birthYear: {
-      type: Number,
-      min: minBirthYear,
-      required: true,
     },
-  },
   { versionKey: false, timestamps: true },
 );
 
@@ -49,8 +44,7 @@ export const contactSortFields = [
   'email',
   'isFavourite',
   'contactType',
-  'birthYear',
-];
+  ];
 
 const ContactCollection = model('contact', contactSchema);
 

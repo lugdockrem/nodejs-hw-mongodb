@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { typeList, minBirthYear } from "../constants/contacts.js";
+import { typeList } from "../constants/contacts.js";
 
 export const contactAddSchema = Joi.object({
     name: Joi.string().min(3).max(30).required().messages({
@@ -11,8 +11,7 @@ export const contactAddSchema = Joi.object({
     phoneNumber: Joi.string().min(3).max(30).required(),
     isFavourite: Joi.boolean(),
     contactType: Joi.string().min(3).max(30).valid(...typeList),
-    birthYear: Joi.number().min(minBirthYear).required(),
-});
+    });
 
 export const contactUpdateSchema = Joi.object({
     name: Joi.string().min(3).max(30),
@@ -20,5 +19,4 @@ export const contactUpdateSchema = Joi.object({
     phoneNumber: Joi.string().min(3).max(30),
     isFavourite: Joi.boolean(),
     contactType: Joi.string().min(3).max(30).valid(...typeList),
-    birthYear: Joi.number().min(minBirthYear),
-});
+    });
