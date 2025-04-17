@@ -18,9 +18,9 @@ export const getContactsController = async (req, res, next) => {
     status: 200,
     message: 'Successfully find contacts',
     data: {
-      ...data,                     // ← сюда вставляются все данные, которые вернул getContacts
-      page: paginationParams.page, // ← сюда значение из параметров пагинации
-      perPage: paginationParams.perPage, // ← и сюда
+      ...data,
+      page: paginationParams.page, 
+      perPage: paginationParams.perPage, 
     },
   });
   };
