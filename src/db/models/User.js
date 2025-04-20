@@ -31,3 +31,4 @@ userSchema.post('findOneAndUpdate', handlSaveError);
 const UserCollection = model("user", userSchema);
 
 export default UserCollection;
+
