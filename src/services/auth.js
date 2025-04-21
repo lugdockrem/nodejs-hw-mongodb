@@ -34,7 +34,13 @@ export const registerUser = async payload => {
 
   const hashPassword = await bcrypt.hash(password, 10);
   
-  return await UserCollection.create({...payload, password: hashPassword});
+  const newUser = await UserCollection.create({ ...payload, password: hashPassword });
+
+  // Удаляем пароль из объекта перед возвратом
+  const userData = newUser.toObject();
+  delete userData.password;
+
+  return userData;
 };
 
 export const loginUser = async payload => {
