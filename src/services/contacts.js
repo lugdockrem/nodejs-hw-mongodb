@@ -49,8 +49,8 @@ export const getContactsById = (id, userId) =>
 export const addContact = (payload) => ContactCollection.create(payload);
 
 // Оновлення контакту за id і userId
-export const updateContact = async (_id, userId, payload, options = {}) => {
-  const { upsert = false } = options;
+export const updateContact = async (_id, payload, options = {}) => {
+  const { userId, upsert = false } = options;
   const rawResult = await ContactCollection.findOneAndUpdate(
     { _id, userId },
     payload,
