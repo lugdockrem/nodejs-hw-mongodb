@@ -1,4 +1,12 @@
 import { registerUser, loginUser, refreshUser, logoutUser, sendResetEmail } from "../services/auth.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import createHttpError from "http-errors";
+import UserCollection from "../db/models/User.js";
+import SessionCollection from "../db/models/Session.js";
+import { getEnvVar } from "../utils/getEnvVar.js";
+
+const JWT_SECRET = getEnvVar("JWT_SECRET");
 
 const setupSession = (res, session) => {
    res.cookie("refreshToken", session.refreshToken, { 
@@ -65,7 +73,7 @@ await logoutUser(req.cookies.sessionId);
 
 export const sendResetEmailController = async (req, res) => {
    try {
-     const result = await sendResetEmail(req.body);
+     await sendResetEmail(req.body); // Убираем const result =
      
      res.json({
        status: 200,
@@ -81,4 +89,41 @@ export const sendResetEmailController = async (req, res) => {
        data: {}
      });
    }
- };
+};
+
+ export const resetPasswordController = async (req, res) => {
+   const { token, password } = req.body;
+   
+   try {
+     // Проверяем токен
+     const decodedToken = jwt.verify(token, JWT_SECRET);
+     const { email } = decodedToken;
+     
+     // Ищем пользователя по email
+     const user = await UserCollection.findOne({ email });
+     if (!user) {
+       throw createHttpError(404, "User not found!");
+     }
+     
+     // Хешируем новый пароль
+     const hashedPassword = await bcrypt.hash(password, 10);
+     
+     // Обновляем пароль пользователя
+     await UserCollection.findByIdAndUpdate(user._id, { password: hashedPassword });
+     
+     // Удаляем текущую сессию пользователя
+     await SessionCollection.deleteMany({ userId: user._id });
+     
+     // Отправляем успешный ответ
+     res.status(200).json({
+       status: 200,
+       message: "Password has been successfully reset.",
+       data: {}
+     });
+   } catch (error) {
+     if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+       throw createHttpError(401, "Token is expired or invalid.");
+     }
+     throw error;
+   }
+};
