@@ -73,7 +73,7 @@ await logoutUser(req.cookies.sessionId);
 
 export const sendResetEmailController = async (req, res) => {
    try {
-     await sendResetEmail(req.body); // Убираем const result =
+     await sendResetEmail(req.body); 
      
      res.json({
        status: 200,
@@ -95,26 +95,26 @@ export const sendResetEmailController = async (req, res) => {
    const { token, password } = req.body;
    
    try {
-     // Проверяем токен
+     // Перевіряємо токен
      const decodedToken = jwt.verify(token, JWT_SECRET);
      const { email } = decodedToken;
      
-     // Ищем пользователя по email
+     // Шукаємо користувача за email
      const user = await UserCollection.findOne({ email });
      if (!user) {
        throw createHttpError(404, "User not found!");
      }
      
-     // Хешируем новый пароль
+     // Хешуємо новий пароль
      const hashedPassword = await bcrypt.hash(password, 10);
      
-     // Обновляем пароль пользователя
+     // Оновлюємо пароль користувача
      await UserCollection.findByIdAndUpdate(user._id, { password: hashedPassword });
      
-     // Удаляем текущую сессию пользователя
+     // Видаляємо поточну сесію користувача
      await SessionCollection.deleteMany({ userId: user._id });
      
-     // Отправляем успешный ответ
+     // Надсилаємо успішну відповідь
      res.status(200).json({
        status: 200,
        message: "Password has been successfully reset.",
