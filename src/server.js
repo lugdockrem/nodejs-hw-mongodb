@@ -12,6 +12,8 @@ import contactsRouter from "./routers/contacts.js";
 
 import { getEnvVar } from "./utils/getEnvVar.js";
 
+// import authResetRouter from "./routers/authReset.js";
+
 export const startServer = ()=> {
     const app = express();
 
@@ -27,6 +29,8 @@ export const startServer = ()=> {
 
     app.use(errorHandler);
 
+    // app.use("/auth", authResetRouter);
+    
     const port = Number(getEnvVar("PORT", 3000));
 
     app.listen(port, ()=> console.log(`Server running on ${port} port`));

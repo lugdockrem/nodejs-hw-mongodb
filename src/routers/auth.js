@@ -3,13 +3,14 @@ import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../utils/validateBody.js';
 
-import { authRegisterSchema, authLoginSchema } from '../validation/auth.js';
+import { authRegisterSchema, authLoginSchema, resetEmailSchema } from '../validation/auth.js';
 
 import {
   registerController,
   loginController,
   refreshController,
   logoutController,
+  sendResetEmailController,
 } from '../controllers/auth.js';
 
 const authRouter = Router();
@@ -30,5 +31,12 @@ authRouter.post(
 authRouter.post('/refresh', ctrlWrapper(refreshController));
 
 authRouter.post('/logout', ctrlWrapper(logoutController));
+
+// Додаємо новий маршрут для скидання пароля
+authRouter.post(
+  '/send-reset-email',
+  validateBody(resetEmailSchema),
+  ctrlWrapper(sendResetEmailController),
+);
 
 export default authRouter;

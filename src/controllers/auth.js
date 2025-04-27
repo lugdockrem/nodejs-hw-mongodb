@@ -1,5 +1,4 @@
-// import { accessTokenLifeTime } from "../constants/auth.js";
-import { registerUser, loginUser, refreshUser, logoutUser } from "../services/auth.js";
+import { registerUser, loginUser, refreshUser, logoutUser, sendResetEmail } from "../services/auth.js";
 
 const setupSession = (res, session) => {
    res.cookie("refreshToken", session.refreshToken, { 
@@ -61,3 +60,25 @@ await logoutUser(req.cookies.sessionId);
 
     res.status(204).send();
 };
+
+// 
+
+export const sendResetEmailController = async (req, res) => {
+   try {
+     const result = await sendResetEmail(req.body);
+     
+     res.json({
+       status: 200,
+       message: "Reset password email has been successfully sent.",
+       data: {}
+     });
+   } catch (error) {
+     console.error("Error in sendResetEmailController:", error);
+     // Надсилаємо клієнту помилку, але не даємо серверу впасти
+     res.status(error.status || 500).json({
+       status: error.status || 500,
+       message: error.message || "Internal server error",
+       data: {}
+     });
+   }
+ };
