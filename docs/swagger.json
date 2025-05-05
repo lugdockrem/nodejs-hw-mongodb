@@ -206,6 +206,21 @@
                     "type": "string",
                     "example": "+380123456789"
                   },
+                  "isFavourite": {
+                    "description": "Is it favorite contact?",
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "contactType": {
+                    "description": "Contact's type",
+                    "type": "string",
+                    "enum": [
+                      "work",
+                      "home",
+                      "personal"
+                    ],
+                    "example": "personal"
+                  },
                   "photo": {
                     "description": "Contact's photo",
                     "type": "string",
